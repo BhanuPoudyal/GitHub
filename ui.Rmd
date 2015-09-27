@@ -1,0 +1,80 @@
+---
+title: 'Developing Data Products : Course Project'
+author: "Bhanu Poudyal"
+date: "September 27, 2015"
+output: html_document
+runtime: shiny
+---
+##Synpsis
+This study examines whether automatic transmission or manual transmission cars are better in terms of mileage per gallon. It also quantify MPG difference between automatic and manual transmission cars. 
+
+###Data Analysis
+
+####Part 1: Is an automatic or manual transmission better for MPG
+
+Smmary of dataset
+```{r, echo=TRUE, eval=TRUE}
+summary(mtcars)
+```
+
+Required variables to get general idea regarding their relation
+
+I could plot the data based on user input. But that action needs reactive expression environment, which slows down the app.  The commented out part could do the job. Hence I used user input just to show how it can be done. The plot is normal qplot of hp vs mpg.
+```{r, echo=TRUE, eval=TRUE}
+data(mtcars)
+inputPanel(
+  selectInput("mtCar_VAriables1", label = "First Parameter to Plot:",
+              choices = names(mtcars), selected = 20),
+ selectInput("mtCar_VAriables2", label = "Second Paraneter to plot",
+              choices = names(mtcars), selected = 20) 
+)
+#renderPlot(input$mtCar_VAriables1, input$mtCar_VAriables2, data=mtcars)
+library(ggplot2)
+plotOutput("plot")
+```
+
+As the dataset we are interested in as binary outcome or dependent variable, it normal linear model may not yield desired result. Hence, we have to use generalized linear model
+
+```{r, echo=TRUE, eval=TRUE}
+fit<-glm(am~mpg, data = mtcars, family = "binomial")
+coef(fit)
+```
+
+From the coefficient above, we can estimate that every unit miles per gallon, the log odds of automatic transmission versus standard transmission increase by 0.307. 
+When we employ wald.test as demonstrated in script below, the Chi-squared test statistic of 7.9 with one degree of freedom for p-value 0.005 is statistically significant.
+
+```{r, echo=TRUE, eval=TRUE}
+library(aod)
+wald.test(vcov(fit), coef(fit), Terms = 1)
+```
+
+Identifying odd ratio in 95% confidence interval gives us that we can estimate that every unit miles per gallon the odds of automatic transmission versus standard transmission increase by 1.3594
+
+```{r, echo=TRUE, eval=TRUE}
+exp(cbind(OR = coef(fit), confint(fit)))
+```
+
+#### Part 2: Quantify the MPG difference between automatic and manual transmissions
+
+Let us list required variables only from mtcars dataset.
+
+```{r, echo=TRUE, eval=TRUE, results="hide"}
+library(sqldf)
+autoAllTrans<-sqldf("select am, mpg from mtcars")
+autoAllTrans
+```
+
+Applying the increase in miles to compare manual transmission versus automatic transmission, manual mpg, equivalent automatic mpg and the difference are calculated below:
+
+```{r, echo=TRUE, eval=TRUE}
+autoTransVsManual<-sqldf("select am, mpg as Manual,  mpg*1.3594 as EquivalentAutomatic, mpg* 1.3594-mpg as Difference from mtcars where am=0")
+autoTransVsManual
+```
+
+##Results
+
+Manual cars are better than automatic ones based an MPG. With odd ratio in 95% confidence interval gives us that we can estimate that every unit miles per gallon the odds of automatic transmission versus standard transmission increase by 1.3594.
+
+
+
+*This is shiny version of my previous project.
