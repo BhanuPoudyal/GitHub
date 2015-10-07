@@ -1,0 +1,69 @@
+---
+title: "Practical Machine Learning - Course Project"
+author: "Bhanu Poudyal"
+date: "October 7, 2015"
+output: html_document
+---
+
+##Synopsis
+The goal of this analysis is to apply appropriate prediction model to predict the manner in which they did the exercise. It will describe the model building procedure, cross validate the model and expected outcome.
+
+##Data Analysis
+
+###Get required data. 
+
+When I read the data outside of this project, it is observed that there are blank spaces, NAs and nulls. Hence, it is decided that the data be cleaned when extracting.
+
+```{r, echo=TRUE, eval=TRUE}
+trainingData<-read.csv("pml-training.csv", na.strings=c("", "NA", "NULL")) #Training Data from the source
+testingData<-read.csv("pml-testing.csv", na.strings=c("", "NA", "NULL")) #Testing data from the source
+
+```
+```{r, echo=TRUE, eval=FALSE}
+head(trainingData)
+```
+Looking at the data we find that the data is not for lm and glm modeling as it demands for more than 2 outcomes. Hence, the Random Forest Algorithn is used. Though Random Forest isslow and susseptible to overfiting, is hightly accurate.
+
+Before using the data we need to do some cleaning. Since there are many variables with only NA valuses in both training and testing datasets. Therefore, those columns are removed using code below:
+
+```{r, echo=TRUE, eval=TRUE}
+#removing columns with NA
+trainingData<-trainingData[,colSums(is.na(trainingData)) == 0]
+testingData<-testingData[,colSums(is.na(testingData)) == 0]
+str(trainingData)
+```
+
+Again, observing the structure of the dataset, x, user_name, raw_timestamp_part_1,  raw_timestamp_part_2,  cvtd_timestamp, new_window, and num_window, do not have movement related data. Hence, they have no use in our prediction model. Therefore, it is decided that these variables be removed using following code:
+
+```{r, echo=TRUE, eval=TRUE}
+#removing columns with NA
+trainingData<-trainingData[,-c(1:7)]
+testingData<-testingData[,-c(1:7)]
+```
+Now, there are only 19622 observations with 86 variables in training dataset and 20 observations with 53 variables in testing dataset. We will be uisng testing data set `r testingData<-testingData[,-c(1:7)]` to apply training model against 20 test cases. 
+To build the model, I am partitioning the data for training and testing, in 70%/30% ratio, as with less training data parameter estimates shalll have greater varience and with more training data performance statistic will have greater varience. 70/30 ration seems appropriate.
+Random forest algorithm is already suseptible to overfitting and using more than 70% of training data would make the problem worst. 
+```{r, echo=TRUE, eval=TRUE}
+library(caret)
+inTrain<-createDataPartition(y=trainingData$classe, p=.7, list=F)
+training<-trainingData[inTrain,]
+testing<-trainingData[-inTrain,]
+```
+
+Creating training model
+```{r, echo=TRUE, eval=TRUE}
+library(randomForest)
+trModel<-randomForest(classe~., data=training, mtry=sqrt(52),importance=TRUE)
+```
+##Results
+When running the model we have created script below we get the following information about accuracy of the model.
+```{r, echo=TRUE, eval=TRUE}
+trModel
+```
+When evaluating the model against test data, the accuracy is obtained as follow:
+```{r, echo=TRUE, eval=TRUE}
+mean(predict(trModel, testing) == testing$classe)
+``` 
+
+Hence the model is more than 99% percent accurate.
+
