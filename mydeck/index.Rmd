@@ -1,0 +1,54 @@
+---
+title       : Shiny and Slidify- Tools to Present Data Products
+subtitle    : Tools at a Glance
+author      : Bhanu Pouduyal
+job         : Coursera- Developing Data Products
+framework   : io2012        # {io2012, html5slides, shower, dzslides, ...}
+highlighter : highlight.js  # {highlight.js, prettify, highlight}
+hitheme     : tomorrow      # 
+widgets     : []            # {mathjax, quiz, bootstrap}
+mode        : selfcontained # {standalone, draft}
+knit        : slidify::knit2slides
+
+---
+
+## Shiny and Slidify- Tools to Present Data Products
+
+### Shiny and Slidify work together with R to make data presentation on the worldwide web easy.
+
+--- .class #id 
+
+## Tools at a Glance
+
+Shiny and Slidify make it easy to convert R codes and R markdown documents to present on the Worldwide Web.
+
+* Shiny helps us create simple but interactive web pages that include R codes, their evaulations and HTML document markers in easy way
+* Slidify helps us create PowerPoint like presentation with R codes and their evaluation results in very easy way.
+
+--- .class #id 
+
+## Writing and evaluating codes is easy with Slidify
+
+```{r echo=TRUE, eval=TRUE}
+data(mtcars)
+head(mtcars)
+```
+This slide shows top few records of mtcars dataset.
+
+--- .class #id 
+
+## We Can Plot Graphs Using Slidify
+
+```{r, echo=TRUE, eval=TRUE}
+plot(mtcars$disp, mtcars$mpg, col=c(mtcars$disp, mtcars$mpg), 
+     xlab = "Displacement", ylab = "Mileage per gallon")
+```
+
+--- .class #id 
+
+## Thank You!
+
+The purpose of this presentation was to show you basic characterististics of Slidiy and how can it be integregated with R code.
+Thank You for viewing my slides
+
+

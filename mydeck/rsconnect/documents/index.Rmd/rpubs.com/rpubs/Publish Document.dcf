@@ -1,0 +1,7 @@
+name: Publish Document
+account: rpubs
+server: rpubs.com
+bundleId:
+        https://api.rpubs.com/api/v1/document/116345/007c0232c9d14957b75a56182d5586dc
+url: http://rpubs.com/bhanupoudyal/116345
+when: 1444289003.36562
