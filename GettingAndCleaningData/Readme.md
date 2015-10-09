@@ -1,0 +1,3 @@
+## Samsung Galaxy S Accelometer Data
+
+This analysis is on data provided from Human Activity Recognition Using Smart Phones. There are there files attached with this file. In the process of creating tidy data, the files applied has been used in accompanied `run_analysis.R` file to clean up and analyse and the data. Accompanied `codebook.md` file explain the process and why and how the process was applied. The final result is presented as accompanied `averages_data.txt` file. 
