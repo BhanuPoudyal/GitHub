@@ -150,7 +150,7 @@ str(trainingData)</code></pre>
 <pre class="r"><code>#removing columns with NA
 trainingData&lt;-trainingData[,-c(1:7)]
 testingData&lt;-testingData[,-c(1:7)]</code></pre>
-<p>Now, there are only 19622 observations with 86 variables in training dataset and 20 observations with 53 variables in testing dataset. We will be uisng testing data set to apply training model against 20 test cases. To build the model, I am partitioning the data for training and testing, in 70%/30% ratio, as with less training data parameter estimates shalll have greater varience and with more training data performance statistic will have greater varience. 70/30 ration seems appropriate. Random forest algorithm is already suseptible to overfitting and using more than 70% of training data would make the problem worst.</p>
+<p>Now, there are only 19622 observations with 86 variables in training dataset and 20 observations with 53 variables in testing dataset. We will be uisng testing data set to apply training model against 20 test cases. To build the model, I am partitioning the data for training and testing, in 70%/30% ratio, as with less training data parameter estimates shalll have greater varience and with more training data performance statistic will have greater varience. 70/30 ration seems appropriate. Random forest algorithm is already susceptible to overfitting and using more than 70% of training data would make the problem worst.</p>
 <pre class="r"><code>library(caret)</code></pre>
 <pre><code>## Loading required package: lattice
 ## Loading required package: ggplot2</code></pre>

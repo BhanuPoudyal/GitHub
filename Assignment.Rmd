@@ -42,7 +42,7 @@ testingData<-testingData[,-c(1:7)]
 ```
 Now, there are only 19622 observations with 86 variables in training dataset and 20 observations with 53 variables in testing dataset. We will be uisng testing data set `r testingData<-testingData[,-c(1:7)]` to apply training model against 20 test cases. 
 To build the model, I am partitioning the data for training and testing, in 70%/30% ratio, as with less training data parameter estimates shalll have greater varience and with more training data performance statistic will have greater varience. 70/30 ration seems appropriate.
-Random forest algorithm is already suseptible to overfitting and using more than 70% of training data would make the problem worst. 
+Random forest algorithm is already susceptible to overfitting and using more than 70% of training data would make the problem worst. 
 ```{r, echo=TRUE, eval=TRUE}
 library(caret)
 inTrain<-createDataPartition(y=trainingData$classe, p=.7, list=F)

@@ -193,7 +193,7 @@ table tr:nth-child(2n+1) {
 ol {
   margin-left: 1.2em;
   margin-bottom: 1em;
-  postion: relative;
+  position: relative;
 }
 
 ol li {
